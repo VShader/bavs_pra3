@@ -1,0 +1,219 @@
+Datei:
+    bavs_v3.txt
+
+Benoetigte Dateien:
+--------------------------------------------
+  bavs_v3.txt
+  bavs_v3p1a.java
+ 
+
+Bei der Durchfuehrung zu erzeugende Dateien:
+--------------------------------------------
+  bavs_v3prot.txt
+  bavs_v3p1b.java
+    
+
+Praktikum "Verteilte Systeme" Bachelor-Versuch 3
+----------------------------------------
+
+Hinweis:
+--------
+Diese Datei gilt gleichzeitig als Vorlage fuer die Erstellung des
+Versuchsprotokolls ! Kopieren Sie diese Datei zuerst in die Datei
+
+   bavs_v3prot.txt
+
+welche Ihr Versuchsprotokoll wird ! Die mit :: markierten Stellen
+sind dann (in der Datei bavs_v3prot.txt) vom Studenten auszufuellen !
+Ohne Ausfuellen dieser Stellen gibt es kein Testat !
+
+
+Studentendaten
+--------------
+Name::
+Vorname::
+Matr-Nr.::
+
+Versuch 3
+-----------------------------------------------------------------------
+
+Die ersten Teile des Versuches sind Vorbereitungsaufgaben, die Sie
+zuhause oder in den Praktikumsraeumen der FH vor dem eigentlichen 
+Termin erledigen koennen und sollen ! Die Erledigung dieser Aufgaben
+benoetigt durchaus einige Zeit und ist nicht am Termin vollstaendig 
+durchfuehrbar !
+
+
+Bei diesem Versuch wird das Verhalten eines realen Netzwerkes bei 
+Benutzung des UDP Protokolls zum Nachrichtenversandt untersucht.
+Dazu werden variierende Paketverzoegerung und Paketverlust
+simuliert.
+
+***********************************************************************
+
+Vorbereitung-Aufgabe 3.1 : 
+Das JAVA Programm  bavs_v3p1a.java ist lauffaehig. Bringen das Programm zum
+Laufen und beobachten Sie was es macht ! In dem Programm gibt es 
+die Klasse
+
+  NetworkSimulator
+
+welche das Verhalten eines Netzwerks beim UDP Protokoll nachbilden 
+soll. Dazu starten Objekte dieses Typs einen Thread. UDP-Nachrichten
+werden bei Verwendung dieses NetworkSimulator-Objekts nicht mehr 
+direkt an sockets geschickt, sondern erst via Methode
+  packetSend(p)
+an das network_simulator-Objekt in Form eines packet-Objekts
+uebergeben. Das NetworkSimulator-Objekt regelt dann 
+verzoegerte Aussendung und eventuellen Paketverlust. Das
+Verhalten wird bestimmt durch die Parameter (Attribute)
+  p_loss
+  p_send
+Ein Packet-Objekt wird durch die Klasse "Packet" definiert.
+Es besteht aus dem eigentlichen Inhalt (Datagramm), 
+dem Ziel (Socket) und einer Identifikation (Id). Die
+Identifikation wird vom NetworkSimulator-Objekt nur benutzt,
+um im zugehoerigen Ausgabe-Fenster anzugeben, was gerade mit 
+dem Paket geschieht. Das id-Attribut des Packet-Objekts wird 
+selbst nicht mit an den Ziel-socket geschickt. Falls der
+Empfaenger also auch eine Identifikation mit erhalten soll,
+muss diese im Inhalt (Datagramm) mit verschickt werden.
+
+Das Attribut p_loss ist die Wahrscheinlichkeit fuer Paketverlust.
+Standard-Besetzung ist p_loss=0.0, d.h. kein Paketverlust.
+
+Das Attribut p_send regelt die Zeitverzoegerung. Der Wert p_send=1.0
+bewirkte ein sofortiges Aussenden des Paketes an den Ziel-Socket.
+p_send=0 bewirkt, dass das Paket nie ausgesandt wird, und fuehrt zu
+Problemen, da das Paket unendlich lange zwischengespeichert wird.
+
+
+Frage 3.2 
+Wie arbeitet die Routine packetSend(p). Wofuer dient die 
+Datenstruktur packet_list. Wozu dient das delays-Attribut
+eines packet-Objekts. Wann wird ein packet-Objekt ausgesandt.
+Was steht im network_simulator-Attribut tick_time ?
+
+
+Antworten::
+
+
+
+Vorbereitung-Aufgabe 3.3 : 
+
+In der Klasse VsComm (steht fuer "Verteile Systeme COMMunikation)
+sind einige Hilfsroutinen fuer die Paket-Kommunikation gekapselt.
+Machen Sie sich mit den Methoden und Attributen dieser Klasse 
+vertraut.
+
+
+Innerhalb dieser Aufgabe sollen Sie die Klasse NetworkTester bzw Receiver
+um einige Methoden bzw Funktionalitaeten erweitern. Eine erste Methode
+ist bereits programmiert. Die Methode action sendet in gewissem
+zeitlichen Abstand eine einfache Nachricht an einen Empfaenger.
+Der Empfaenger wird durch ein Objekt der Klasse Receiver realisiert.
+
+Vorbereitung-Aufgabe 3.4 : 
+
+Machen sie sich mit der KLasse Receiver und der Methode action
+vertraut und studieren Sie, wie sie sich verhalten. Kann man
+feststellen, dass Nachrichten verzoegert werden ? Kann man
+feststellen, dass Nachrichten verloren gehen ?
+
+Frage 3.5:
+Wie kann man sehen, dass Nachrichten verloren gehen, und dass 
+Nachrichten unterschiedlich verzoegert werden ?
+
+Antwort::
+
+
+------------------------------------------------------------------------
+
+***********************************************************************
+
+Im Praktikum erweitern Sie das Programm bavs_v3p1a.java zum Programm 
+bavs_v3p1b.java . Kopieren Sia also zuerst bavs_v3p1a.java zu bavs_v3p1b.java und
+erweitern Sie dann sukzessive bavs_v3p1b.java.
+
+
+Praktikums-Aufgabe 3.6 : 
+
+In dieser Aufgabe sollen Sie die mittlere Transportzeit einer 
+Nachricht ermitteln, Erweitern Sie dazu die Methode action aus 
+NetworkTester so, dass sie das folgende leistet:
+
+  Die Methode action schickt weiter Nachrichten an das Receiver-Objekt
+  Die Nachricht soll bestehen aus:
+    Nummer der Nachricht ,wie bisher
+    Zeit des Absendens
+    Ihr Name
+  Zum Erstellen der Nachricht benutzt man sinnvollerweise die Methoden der Klasse ByteBuffer !
+  
+  Das Receiver-Objekt soll nun folgendes leisten:
+    Fuer jede Nachricht: Ermittlung der Zeit, welche die Nachricht gebraucht hat.
+    Mittlere Zeit die eine Nachricht braucht
+    Ermittlung der Nachrichtenverlust-Wahrscheinlichkeit
+
+  Um die Nachrichten-Verlustwahrscheinlichkeit zu ermitteln soll Receiver
+  zuerst in eine Variable sentEstimated die Anzahl der bisher gesendeten
+  Nachrichten schaetzen (z.B. aufgrund der empfangenen Nachrichtennummer).
+
+  Ermitteln Sie die mittlere Transportzeit fuer folgenden Einstellungen:
+
+  a) p_loss=0.0 und p_send=1.0
+  b) p_loss=0.0 und p_send=0.99 
+  c) p_loss=0.0 und p_send=0.2
+  d) p_loss=0.0 und p_send=0.1
+
+Ermittelte mittlere Transportzeit:
+
+Antwort::
+ a)::
+ b)::
+ c)::
+ d)::
+
+Frage 3.7:
+Wie kann man die Zeiten  erklaeren ?
+
+Antwort::
+
+
+Frage 3.8:
+Wie kann man die mittlere Verzoegerungszeit annaehernd aus p_send 
+berechnen ? Gibt es fuer das Resulat eine Begruendung ? Welche ?
+
+Antwort::
+
+
+Praktikums-Aufgabe 3.9 : 
+
+  Bisher wartet der Sender immer 1 Sekunde bis er eine neue Nachricht verschickt.
+  Entfernen Sie dieses Wartn und senden Sie in der (bisherigen Endlos-) Schleife
+  nun genau 100 Nachrichten.
+
+  Ermitteln Sie nun wieder die mittelere Verzögerung von Nachrichten und die Verlustrate fuer:
+
+  a) p_loss=0.0 und p_send=1.0
+  b) p_loss=0.0 und p_send=0.1
+
+
+Ermittelte mittlere Transportzeit/Verlustrate:
+
+Antwort::
+ a)::
+ b)::
+ 
+
+Frage 3.10:
+Wie lassen sich die Werte qualitativ erklaeren ?
+
+
+
+
+
+***********************************************************************
+Ende Versuch3
+***********************************************************************
+
+
