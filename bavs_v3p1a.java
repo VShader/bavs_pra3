@@ -341,7 +341,13 @@ class Receiver extends Thread {
   ByteBuffer rxBuffer=new ByteBuffer() ;
   int id ;
   VsComm RX_comm ;
+  int sentEstimated;
 
+  public void Receiver()
+  {
+	  sentEstimated = 1;
+  }
+  
   public void run() { 
     System.out.println("RX_tst.run executed");
     OutputFrame out=new OutputFrame("RX_TEST") ;
@@ -355,7 +361,17 @@ class Receiver extends Thread {
       rxBuffer.contents=RX_comm.inDatagram.getData() ;
       rxBuffer.reset() ;
       id=rxBuffer.getInt() ;
-      out.listln("GOT message "+id ) ;
+      long time = rxBuffer.getLong();
+      long diffTime = System.currentTimeMillis() - time;
+      String name = rxBuffer.getString();
+      out.listln("GOT message " +id +" " +diffTime +" " +name ) ;
+      
+      int lostMsg = id - sentEstimated;
+      float relLost = 1-((float)lostMsg/id);
+      out.listln("Mittlere Transportzeit = " +diffTime); 
+      out.listln("Lostrate = " +relLost);
+      sentEstimated = id;
+      
       } // end while
     } // end method
   } // end class
@@ -380,8 +396,10 @@ synchronized void waitSecond() {
     output=new OutputFrame("RX_TX_test") ;  // get a listing window for sender
     network=new NetworkSimulator() ;        // get a network for sending and receiving
     network.start();                         // start the network simulation
-    network.p_send=0.05 ;                    // with these parameters 
-    network.p_loss=0.5 ;
+    //network.p_send=0.05 ;                    // with these parameters 
+    //network.p_loss=0.5 ;
+    network.p_send=0.1 ;
+    network.p_loss=0.00 ;
 
     Receiver receiver=new Receiver() ;         // get a receiver 
     receiver.network=network ;             // connect it to the network
@@ -402,6 +420,8 @@ synchronized void waitSecond() {
       testBuffer.reset() ;
       testBuffer.putInt(messageNumber) ;
       long time=System.currentTimeMillis() ;
+      testBuffer.putLong(time);
+      testBuffer.putString("Hallo");
 
 // send message to network
       tester_comm.OutBuffer=testBuffer.contents ;

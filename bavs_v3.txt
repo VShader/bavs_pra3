@@ -175,10 +175,10 @@ NetworkTester so, dass sie das folgende leistet:
 Ermittelte mittlere Transportzeit:
 
 Antwort::
- a)::
- b)::
- c)::
- d)::
+ a)::0 ms
+ b)::16 - 94 ms
+ c)::78 - 1248 ms
+ d)::21 - 2215 ms
 
 Frage 3.7:
 Wie kann man die Zeiten  erklaeren ?
