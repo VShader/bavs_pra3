@@ -96,6 +96,13 @@ Was steht im network_simulator-Attribut tick_time ?
 
 
 Antworten::
+1. Radom Zahl ob Paket verloren geht, 2.überprüfen ob Paket von der Zeit aus gesendet werden kann.
+3. Paket senden.
+pacetList ist ein Vektor, der das Paket speichert wenn es verzögert gesendet werden soll.
+delays wird mit 0 initialisiert wenn das Paket nicht gesendet werden kann und in consume() inkrementiert
+bis es gesendet werden kann.
+Ein Paket wird verschickt, wenn es nicht verloren geht und wenn lange genug gewartet hat.
+In tick_time steht die anzahl an Millisekunden die der Thread in delay() warten muss.
 
 
 
