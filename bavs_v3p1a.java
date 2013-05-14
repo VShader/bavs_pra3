@@ -367,10 +367,10 @@ class Receiver extends Thread {
       out.listln("GOT message " +id +" " +diffTime +" " +name ) ;
       
       int lostMsg = id - sentEstimated;
-      float relLost = 1-((float)lostMsg/id);
+      float relLost = (float)lostMsg/id;
       out.listln("Mittlere Transportzeit = " +diffTime); 
       out.listln("Lostrate = " +relLost);
-      sentEstimated = id;
+      sentEstimated++;
       
       } // end while
     } // end method
@@ -398,7 +398,7 @@ synchronized void waitSecond() {
     network.start();                         // start the network simulation
     //network.p_send=0.05 ;                    // with these parameters 
     //network.p_loss=0.5 ;
-    network.p_send=0.1 ;
+    network.p_send=1.0 ;
     network.p_loss=0.00 ;
 
     Receiver receiver=new Receiver() ;         // get a receiver 
@@ -412,7 +412,8 @@ synchronized void waitSecond() {
 
     int messageNumber=0 ;
     
-    while(true) {
+    int i=0;
+    while(i < 100) {
 // built up new message
       messageNumber++ ;
       testBuffer=new ByteBuffer() ;
@@ -428,7 +429,8 @@ synchronized void waitSecond() {
       tester_comm.message_id=messageNumber+100000 ;
       tester_comm.send(4712,destination );
       output.listln("sent at time "+time+" message no: "+messageNumber ) ;
-      waitSecond() ;
+      //waitSecond() ;
+      i++;
       } // end while
     }
   // end method

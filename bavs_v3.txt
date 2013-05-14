@@ -208,8 +208,8 @@ Praktikums-Aufgabe 3.9 :
 Ermittelte mittlere Transportzeit/Verlustrate:
 
 Antwort::
- a)::
- b)::
+ a)::1467 ms
+ b)::4664 ms
  
 
 Frage 3.10:
